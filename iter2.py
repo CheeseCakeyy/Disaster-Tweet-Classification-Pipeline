@@ -13,7 +13,7 @@ from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score,precision_score,recall_score,accuracy_score
 
-train_path = "C:/Users/Adwait Tagalpallewar/Desktop/datasets/nlp-getting-started/train.csv"
+train_path = "data/train.csv"
 train_df = pd.read_csv(train_path)
 
 print(train_df.head())
@@ -109,7 +109,7 @@ the f1 score remained same for logReg but growth in recall was seen with a sligh
 #--------------
 '''Submission 1 iter2 '''
 #--------------
-test_path = "C:/Users/Adwait Tagalpallewar/Desktop/datasets/nlp-getting-started/test.csv"
+test_path = "data/test.csv"
 test_df = pd.read_csv(test_path)
 
 X_test = feature_creation(test_df)
@@ -133,5 +133,6 @@ submission = pd.DataFrame({
     'id' : test_df['id'],
     'target' : y_pred
 })
+
 
 # submission.to_csv('submission1_svm_iter2.csv',index=False) #0.79497
