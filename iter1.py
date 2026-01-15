@@ -13,9 +13,10 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score,precision_score,recall_score
+from sklearn.svm import SVC
 
 
-train_path = "C:/Users/Adwait Tagalpallewar/Desktop/datasets/nlp-getting-started/train.csv"
+train_path = "data/train.csv"
 train_df = pd.read_csv(train_path)
 
 print(train_df.head())
@@ -91,15 +92,22 @@ pipeline_LR = Pipeline([
         ))
 ])
 
+pipeline_svm = Pipeline([
+    ('Tfidf',TfidfVectorizer()),
+    ('model',SVC())
+])
+
 #splitting data into train/validation split to evaluate baseline model
 X_train,X_val,y_train,y_val = train_test_split(X,y,random_state=42,test_size=0.2,stratify=y)
 
 #training and evaluatin on validation set 
 pipeline_NB.fit(X_train,y_train)
 pipeline_LR.fit(X_train,y_train)
+pipeline_svm.fit(X_train,y_train)
 
 y_pred_val_NB = pipeline_NB.predict(X_val)
 y_pred_val_LR = pipeline_LR.predict(X_val)
+y_pred_val_svm = pipeline_svm.predict(X_val)
 
 print(f'val_f1_score,precision,recall of NB baseline: ',f1_score(y_val,y_pred_val_NB),
                                                          precision_score(y_val,y_pred_val_NB),
@@ -107,19 +115,24 @@ print(f'val_f1_score,precision,recall of NB baseline: ',f1_score(y_val,y_pred_va
 print(f'val_f1_score,precision,recall of LR baseline: ',f1_score(y_val,y_pred_val_LR),
                                                          precision_score(y_val,y_pred_val_LR),
                                                          recall_score(y_val,y_pred_val_LR))
+print(f'val_f1_score,precision,recall of SVM baseline: ',f1_score(y_val,y_pred_val_svm),
+                                                         precision_score(y_val,y_pred_val_svm),
+                                                         recall_score(y_val,y_pred_val_svm))
+
 
 '''Baseline_results:
 val_f1_score,precision,recall of NB baseline:  0.7591623036649214 0.8841463414634146 0.6651376146788991
 val_f1_score,precision,recall of LR baseline:  0.7671913835956918 0.8372513562386981 0.7079510703363915
+val_f1_score,precision,recall of SVM baseline:  0.764406779661017 0.8574144486692015 0.6896024464831805
 '''
 '''Both Multinomial Naive Bayes and Logistic Regression were evaluated as baseline models using TF-IDF features.
 Logistic Regression achieved a higher F1-score and significantly better recall, making it more suitable for disaster detection 
-where false negatives are costly.'''
+where false negatives are costly.But at the same time SVM showed signs of performing well on the dataset with a slightly lower f1 but better precision.'''
 
 #--------------
 '''Submission 1 Baseline'''
 #--------------
-test_path = "C:/Users/Adwait Tagalpallewar/Desktop/datasets/nlp-getting-started/test.csv"
+test_path = "data/test.csv"
 test_df = pd.read_csv(test_path)
 
 test_df['keyword'] = test_df['keyword'].fillna('missing')
@@ -135,4 +148,15 @@ submission = pd.DataFrame({
     'target' : y_pred
 })
 
-submission.to_csv('submission1_baseline.csv',index=False) #0.79895, funny enough that this baseline submission ranked 374/717
+submission.to_csv('submission1_baselineLR.csv',index=False) #0.79895, baseline LR submission ranked 374/717
+
+#predictions using baseline SVM
+pipeline_svm.fit(X,y)
+y_pred = pipeline_svm.predict(X_test)
+
+submission = pd.DataFrame({
+    'id' : test_df['id'],
+    'target' : y_pred
+})
+
+submission.to_csv('submission1_baselineSVM.csv',index=False) #0.79987, slightly better performance shown by baseline SVM leaderboard_rank = 348/717
