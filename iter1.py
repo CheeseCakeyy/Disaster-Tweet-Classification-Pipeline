@@ -13,7 +13,7 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score,precision_score,recall_score
-from sklearn.svm import SVC
+from sklearn.svm import SVC   #since our data is will be hing dimensional 
 
 
 train_path = "data/train.csv"
@@ -160,3 +160,4 @@ submission = pd.DataFrame({
 })
 
 submission.to_csv('submission1_baselineSVM.csv',index=False) #0.79987, slightly better performance shown by baseline SVM leaderboard_rank = 348/717
+
