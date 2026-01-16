@@ -135,4 +135,5 @@ submission = pd.DataFrame({
 })
 
 
-submission.to_csv('submission1_svm_iter2.csv',index=False) #0.80324 best so far, kaggle rank 305/713
+submission.to_csv('submission1_svm_iter2.csv',index=False) #0.80324 best so far, kaggle rank 304/713
+
