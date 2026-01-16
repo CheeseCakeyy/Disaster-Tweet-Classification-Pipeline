@@ -31,8 +31,8 @@ def feature_creation(df):
     df['clean_text'] = df['text_combined'].apply(clean_text)
 
     # ! count and ? count can also be features (were adding noise so commented out)
-    df['excl_count'] = df['text'].str.count('!')
-    df['que_count'] = df['text'].str.count(r'\?')
+    # df['excl_count'] = df['text'].str.count('!')
+    # df['que_count'] = df['text'].str.count(r'\?')
 
     #dropping unnecessary columns
     useless_cols = ['id','location','keyword','text']
@@ -51,7 +51,7 @@ y = train_df['target']
 '''Preprocessing'''
 #-------------------
 tf_idf_cols = 'clean_text'
-remaining_cols = ['has_loc','has_keyword','excl_count','que_count'] 
+remaining_cols = ['has_loc','has_keyword',] #'excl_count','que_count'
 
 preprocessor = ColumnTransformer(
     transformers=[
@@ -136,3 +136,4 @@ submission = pd.DataFrame({
 
 
 # submission.to_csv('submission1_svm_iter2.csv',index=False) #0.79497
+
