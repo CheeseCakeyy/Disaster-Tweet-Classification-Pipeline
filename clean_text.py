@@ -1,5 +1,5 @@
 '''A function to clean the text, bascically removes noise such as links,@,# and other special characters
-from the tweet texts'''
+from the tweet texts, an attempt towards automating data cleaning proocess'''
 
 import re
 
@@ -12,3 +12,4 @@ def clean_text(text):
     text = re.sub(r"[^a-zA-Z0-9 ]", "", text)  #removing special characters
 
     return text
+
