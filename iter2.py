@@ -123,7 +123,7 @@ submission = pd.DataFrame({
     'target' : y_pred
 })
 
-# submission.to_csv('submission1_LR_iter2.csv',index=False) #0.79098
+# submission.to_csv('submission1_LR_iter2.csv',index=False) #0.79742
 
 #SVM
 pipeline_svm.fit(X,y)
@@ -136,4 +136,5 @@ submission = pd.DataFrame({
 
 
 submission.to_csv('submission1_svm_iter2.csv',index=False) #0.80324 best so far, kaggle rank 304/713
+
 
